@@ -16,6 +16,7 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 * [Redis](https://redis.io/): Message queue
 * [Docker/Docker-compose](https://www.docker.com/): All services are ran in containers, and defined by docker-compose
 * [supervisord](http://supervisord.org/): Manages worker processes (Python scripts) in a container that frequently pull new Player data from the Destiny API
+* [Jenkins](https://jenkins.io/): Builds and deploys the project
 
 # Development
 
