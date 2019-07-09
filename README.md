@@ -1,5 +1,7 @@
 # Overview
 
+The application can be viewed here: http://destiny.thebrobotic.com/ (design is a work in progress, right now I'm focusing on functionality first)
+
 A Destiny 2 stat site made for my clan, SwampFox. The project started as a small site written in Flask backed by a PostgreSQL database, where its only purpose was to display what weapons were most popular in PvP (in terms of kill count). It has since evolved into a bigger project with a few more moving parts, and aims to be the home website for my Destiny clan. It's been a ton of fun building this, and I've learned quite a bit in the process and am excited to see where this goes!
 
 # Features
