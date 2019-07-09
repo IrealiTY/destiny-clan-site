@@ -10,7 +10,13 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 # Technologies used
 
 * [Vue.JS](https://vuejs.org/): Javascript frontend framework
+* [nginx](https://www.nginx.com/): Serves frontend and reverse-proxies requests to backend API
 * [Flask](http://flask.pocoo.org/): Backend API written in Python
 * [PostgreSQL](https://www.postgresql.org/): Database
 * [Redis](https://redis.io/): Message queue
 * [Docker/Docker-compose](https://www.docker.com/): All services are ran in containers, and defined by docker-compose
+* [supervisord](http://supervisord.org/): Manages worker processes (Python scripts) in a container that frequently pull new Player data from the Destiny API
+
+# Development
+
+# Deployment
