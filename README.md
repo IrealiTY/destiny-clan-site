@@ -17,7 +17,15 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 * [Docker/Docker-compose](https://www.docker.com/): All services are ran in containers, and defined by docker-compose
 * [supervisord](http://supervisord.org/): Manages worker processes (Python scripts) in a container that frequently pull new Player data from the Destiny API
 * [Jenkins](https://jenkins.io/): Builds and deploys the project
+* [GitLab](https://about.gitlab.com/): Version control for the project
 
 # Development
 
 # Deployment
+
+# The Future
+
+Here are improvemets I want to make in the near future.
+
+* Break up the DestinyAPI class into smaller modules. Example: code related to the Destiny API Manifest should be put into its own module/class. 
+* Tests, tests, and more tests. Jenkins should run these tests automatically as new code is committed to GitLab.
