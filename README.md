@@ -28,4 +28,5 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 Here are improvemets I want to make in the near future.
 
 * Break up the DestinyAPI class into smaller modules. Example: code related to the Destiny API Manifest should be put into its own module/class. 
-* Tests, tests, and more tests. Jenkins should run these tests automatically as new code is committed to GitLab.
+* Tests. Jenkins should run these tests automatically as new code is committed to GitLab.
+* Container orchestration, instead of just relying on docker-compose for new deployments.
