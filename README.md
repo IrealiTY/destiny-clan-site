@@ -25,13 +25,13 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 
 ## Roster update
 
-1. Every 3 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids.py`) in the Workers container that publishes all player membershipId's to the Redis message queue. Originally, this process was just a script that looped through each player and updated their stats. I wanted stats to be updated quicker, so that's where Redis came in. Now multiple players can be processed at once.
+1. Every 3 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_roster.py`) in the Workers container that publishes all player membershipId's to the Redis message queue. Originally, this process was just a script that looped through each player and updated their stats. I wanted stats to be updated quicker, so that's where Redis came in. Now multiple players can be processed at once.
 2. Several Workers are subscribed to the queue will pop player memembershipId's from the queue and pull the latest stats from the Destiny API for that player, and send the latest data to the database. Script: (`%projectroot%/stat_collector.py`)
 3. Frontend queries the backend API for the player data, and will transform some of the data on the client side on each page load. Example: a list of Seals (aka Titles) earned by each player are returned from the API, and the frontend contains computed properties that will transform the Seal name into the corresponding icon for each Seal. 
 
 ## Weapon stats update
 
-1. Every 5 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids.py`) in the Workers container that sends all player membershipId's to the Redis queue.
+1. Every 5 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_pvp.py`) in the Workers container that sends all player membershipId's to the Redis queue.
 2. Several Workers are subscribed to the queue will pop player memembershipId's from the queue and check for new crucible matches played for each character that the player has. In the database, I keep track of the last match processed for each character as well as the last played time for the player; this helps quickly identify new matches played. The Worker then sends a JSON blob to a different Redis queue("PvP Queue"), that is contains a list of characters along with new matches they've played. Script: (`%projectroot%/pgcr_consumer.py`)
 3. Another set of Workers are subscribed to the PvP Queue, and will pop items off the list and go through each match that needs to be processed. The Worker will then: process the match, add the new kill count for each weapon to the database, and update the character's last match processed in the database. Script: (`%projectroot%/pgcr_consumer.py`)
 
