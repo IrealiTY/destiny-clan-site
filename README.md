@@ -45,3 +45,9 @@ Here are improvemets I want to make in the near future.
 * Tests. Jenkins should run these tests automatically as new code is committed to GitLab.
 * Container orchestration, instead of just relying on docker-compose for new deployments.
 * Optimize Dockerfiles across all containers to take advantage of build cache.
+
+# Changelog
+
+7/15/2019
+* Added tests for API endpoints
+* Added Jenkinsfile that describes a simple pipeline for running automated tests when new code is pushed to my self-hosted GitLab server
