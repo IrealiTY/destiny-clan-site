@@ -1,0 +1,91 @@
+version: '3.7'
+services:
+  sfapiprod:
+    image: docker_sfapi
+    networks:
+      - sfprod
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://192.168.20.238:5044"
+  sffeprod:
+    image: docker_sffe
+    networks:
+      - sfprod
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://192.168.20.238:5044"
+  sfworkersprod:
+    image: docker_sfworkers
+    networks:
+      - sfprod
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://192.168.20.238:5044"
+  sfredis:
+    image: "docker_sfredis"
+    networks:
+      - sfprod
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://192.168.20.238:5044"
+    deploy:
+      replicas: 1
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+  sfpgcrconsumerprod:
+    image: docker_sfpgcrconsumer
+    networks:
+      - sfprod
+    deploy:
+      replicas: 3
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://192.168.20.238:5044"
+networks:
+  sfprod:
+    external: true
+    name: host

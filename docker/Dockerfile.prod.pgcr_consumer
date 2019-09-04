@@ -1,0 +1,27 @@
+FROM frolvlad/alpine-python3:latest as base
+FROM base as builder
+
+ADD requirements.txt /tmp
+ADD get-pip.py /tmp
+
+RUN /usr/bin/python3 -m venv /venv --without-pip
+RUN /venv/bin/python3 /tmp/get-pip.py
+
+RUN \
+ apk add --no-cache postgresql-libs python3-dev && \
+ apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
+ /venv/bin/python3 -m pip install -r /tmp/requirements.txt --no-cache-dir && \
+ apk --purge del .build-deps
+
+FROM base
+ENV CLANENV=prod
+COPY --from=builder /venv /venv
+RUN mkdir /app
+WORKDIR /app
+ADD clan.py /app
+ADD config.py /app
+ADD app/ /app/app
+
+RUN apk add libpq
+
+CMD ["/venv/bin/python3", "./app/workers/pgcr_consumer.py"]

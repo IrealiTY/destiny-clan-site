@@ -5,6 +5,12 @@ from . import api_rest
 
 d2 = DestinyAPI()
 
+@api_rest.route('/info')
+class ResourceInfo(Resource):
+    def get(self):
+        data = d2.get_service_info()
+        return data
+
 @api_rest.route('/resources/roster')
 class ResourceRoster(Resource):
     def get(self):
@@ -33,18 +39,27 @@ class ResourcePlayerCharacters(Resource):
 class ResourceWeapon(Resource):
     def get(self, weapon_id):
         data = d2.api_get_weapon(weapon_id)
+        if not data:
+            return {"Message": "Weapon id not found in the Destiny database."}, 404
+
         return data
 
 @api_rest.route('/resources/weapon/<string:weapon_id>/kills/<int:days>')
 class ResourceWeaponKills(Resource):
     def get(self, weapon_id, days):
         data = d2.api_get_weapon_kills(weapon_id, days)
+        if not data:
+            return {"Message": "Weapon id not found in the Destiny database."}, 404
+
         return data
 
 @api_rest.route('/resources/collectible/<string:collectible_hash>')
 class ResourceColletible(Resource):
     def get(self, collectible_hash):
         data = d2.db_get_collectible(collectible_hash)
+        if not data:
+            return {"Message": "Collectible hash not found in the Clan database."}, 404
+
         return data
 
 @api_rest.route('/resources/collectibles')
@@ -67,6 +82,9 @@ class ResourceWeaponTypes(Resource):
         else:
             data = d2.api_get_top_weapon_by_type(weapontype, days)
 
+        if not data:
+            return {"Message": "Invalid weapon type specified."}, 404
+
         return data
 
 @api_rest.route('/resources/weapons/<string:category>/<int:days>')
@@ -74,4 +92,7 @@ class ResourceWeaponCategoryKills(Resource):
     def get(self, category, days):
         category = ' '.join(category.split('_')).title()
         data = d2.api_get_weapon_category_kills(category, days)
+        if not data:
+            return {"Message": "Invalid weapon category specified."}, 404
+
         return data

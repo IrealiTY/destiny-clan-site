@@ -1,13 +1,11 @@
 import os
 import logging
-from flask import Flask, send_file, current_app
+from flask import Flask, current_app
 from config import Config, ConfigProd
 from flask_sqlalchemy import SQLAlchemy
-from flask_bootstrap import Bootstrap
 from flask_cors import CORS
 
 def create_app():
-    print('create_app()')
     app = Flask(__name__)
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
@@ -18,13 +16,8 @@ def create_app():
 
     from app.models import db
     db.init_app(app)
-    bootstrap = Bootstrap(app)
-
-    from app.clan import bp as clan_blueprint
-    app.register_blueprint(clan_blueprint)
 
     from app.destiny import api_bp as api
-    #api.init_app(app)
     app.register_blueprint(api)
 
     if os.environ['CLANENV'] == 'prod':

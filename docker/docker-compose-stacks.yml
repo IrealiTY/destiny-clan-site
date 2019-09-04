@@ -1,0 +1,39 @@
+version: '3'
+services:
+  sfapi-stg:
+    image: "sfapi-${gitlabBranch}:${BUILD_ID}"
+    deploy:
+      replicas: 2
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+  sffe-stg:
+    image: "sffe-${gitlabBranch}:${BUILD_ID}"
+    deploy:
+      replicas: 2
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+    ports:
+      - "80:80"
+  sfworkers-stg:
+    image: "sfworkers-${gitlabBranch}:${BUILD_ID}"
+    deploy:
+      replicas: 2
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+  redis:
+    image: "redis:alpine"

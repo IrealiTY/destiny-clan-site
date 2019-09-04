@@ -37,7 +37,7 @@
   <b-row align-h="center">
     <b-table v-if="resources.length > 0" small class="w-50 text-light table-dark" :items="resources[0]" :fields="fields">
       <template slot="name" slot-scope="data">
-        <router-link :to="{ name: 'weapon', params: { weapon_id: data.item.weapon_id }}"> {{ data.item.name }}</router-link>
+        <router-link class="weapon" :to="{ name: 'weapon', params: { weapon_id: data.item.weapon_id }}"> {{ data.item.name }}</router-link>
       </template>
     </b-table>
   </b-row>
@@ -172,16 +172,47 @@ export default {
 </script>
 
 <style lang="scss">
+.table-dark {
+  background-color: #0a0a0a !important;
+}
+
+.table td {
+  border-top: none !important;
+}
+
 .nhg {
   font-family: "nhg display";
 }
 
 a {
-  font-family: "nhg display";
+  font-family: "nhg display text";
 }
 
 h5 {
   font-family: "nhg display 2";
   color: white;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active {
+  background-color: #b51e53 !important;
+  border-color: #b51e53 !important;
+}
+
+.btn-secondary {
+  background-color: #ff2c76 !important;
+  border-color: #ff2c76 !important;
+}
+
+.dropdown-menu {
+  background-color: #0a0a0a !important;
+  border-color: #b51e53 !important;
+}
+
+.dropdown-item:hover {
+  background-color: #b51e53 !important;
+}
+
+.weapon {
+  font-family: "nhg display";
 }
 </style>

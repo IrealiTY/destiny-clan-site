@@ -1,0 +1,14 @@
+FROM node:lts-alpine as build-stage
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN yarn build --mode production
+
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY configs/nginx-prod.conf /etc/nginx/conf.d/
+COPY certs/ /etc/ssl/
+EXPOSE 80
+EXPOSE 443
+CMD ["nginx","-g","daemon off;"]

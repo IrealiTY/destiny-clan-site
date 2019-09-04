@@ -1,5 +1,9 @@
 # Python
 __pycache__/
+env.ps1
+livedata/
+.vscode/
+testdb.sqlite3
 .vscode/
 data/
 

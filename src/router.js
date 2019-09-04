@@ -43,6 +43,21 @@ export default new Router({
       path: '/weapons/types',
       name: 'weapontypes',
       component: WeaponTypes
-    }   
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
+    },
+    {
+      path: '/db',
+      name: 'db',
+      component: Db
+    },
+    {
+      path: '/me',
+      name: 'me',
+      component: Me
+    }    
   ]
 })

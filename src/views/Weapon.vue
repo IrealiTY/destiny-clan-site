@@ -1,5 +1,5 @@
 <template>
-    <b-contatiner fluid class="bg-dark">
+    <b-container fluid class="bg-dark">
       <b-row>
         <b-col>
         </b-col>
@@ -32,7 +32,7 @@
           <h1>No results</h1>
         </div>
       </b-row>
-    </b-contatiner>
+    </b-container>
 </template>
 
 <script>

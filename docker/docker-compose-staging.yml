@@ -1,0 +1,21 @@
+version: '3'
+services:
+  sfapi:
+    image: "sfapi-${gitlabBranch}:${BUILD_ID}"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev.api
+  sffe:
+    image: "sffe-${gitlabBranch}:${BUILD_ID}"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev.frontend
+    ports:
+      - "80:80"
+  sfworkers:
+    image: "sfworkers-${gitlabBranch}:${BUILD_ID}"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev.workers
+  redis:
+    image: "redis:alpine"

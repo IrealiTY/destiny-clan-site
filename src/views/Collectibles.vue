@@ -85,4 +85,12 @@ export default {
 .p {
   font-family: "nhg display sub";
 }
+
+.bg-dark.container-fluid {
+  background-color: #0a0a0a !important;
+}
+
+.popover-header {
+  font-family: "nhg display";
+}
 </style>

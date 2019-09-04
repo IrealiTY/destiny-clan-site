@@ -1,0 +1,22 @@
+version: '3'
+services:
+  sfapi:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.prod.api
+  sffe:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.prod.frontend
+  sfworkers:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.prod.workers
+  sfpgcrconsumer:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.prod.pgcr_consumer
+  sfredis:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.prod.redis

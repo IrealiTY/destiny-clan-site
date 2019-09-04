@@ -1,0 +1,38 @@
+version: '3'
+services:
+  sfapi:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev.api
+    container_name: sfapi
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://172.17.0.1:5000"
+  sffe:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev.frontend
+    container_name: sffe
+    ports:
+      - "80:80"
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://172.17.0.1:5000"
+  sfworkers:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev.workers
+    container_name: sfworkers
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://172.17.0.1:5000"
+  redis:
+    restart: unless-stopped
+    container_name: sfredis
+    image: "redis:alpine"

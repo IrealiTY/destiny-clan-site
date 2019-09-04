@@ -1,11 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">HOME</router-link> | 
-      <router-link to="/collectibles">COLLECTIONS</router-link> | 
-      <router-link to="/weapons/types">CRUCIBLE</router-link>  | 
-    </div>
-    <router-view/>
+    <v-container>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <div id="nav">
+            <router-link to="/">HOME</router-link> | 
+            <router-link to="/collectibles">COLLECTIONS</router-link> | 
+            <router-link to="/weapons/types">CRUCIBLE</router-link>
+            <router-view/>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-container>
     <app-footer class="foot"></app-footer>
   </div>
 </template>
@@ -27,17 +33,21 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  background-color: #343a40;
+  background-color: #0a0a0a;
 }
+
+html {
+  background-color: #0a0a0a;
+}
+
 #nav {
   padding: 30px;
   a {
     font-weight: bold;
     font-family: "nhg display";
-    color: #0080ff;
+    color: #ffffff;
     &.router-link-exact-active {
-      color: white;
+      color: #ff2c76;
     }
   }
   color: #888888;

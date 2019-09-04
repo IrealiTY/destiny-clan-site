@@ -1,0 +1,49 @@
+before_script:
+  - docker info
+  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+
+build_workers:
+  stage: build
+  only:
+    changes:
+      - docker/Dockerfile.dev.workers
+      - app/*
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/sfworkersdev:latest || true
+    - docker build -t sfworkersdev -f docker/Dockerfile.dev.workers . --tag $CI_REGISTRY_IMAGE/sfworkersdev:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/sfworkersdev:$CI_COMMIT_SHA
+
+build_pgcrconsumer:
+  stage: build
+  only:
+    changes:
+      - docker/Dockerfile.dev.pgcr_consumer
+      - app/*
+      - src/*
+      - public/*
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/sfpgcrconsumerdev:latest || true
+    - docker build -t sfpgcrconsumerdev -f docker/Dockerfile.dev.pgcr_consumer . --tag $CI_REGISTRY_IMAGE/sfpgcrconsumerdev:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/sfpgcrconsumerdev:$CI_COMMIT_SHA
+
+build_fe:
+  stage: build
+  only:
+    changes:
+      - docker/Dockerfile.dev.frontend
+      - app/*
+      - configs/nginx*
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/sffedev:latest || true
+    - docker build -t sffedev -f docker/Dockerfile.dev.frontend . --tag $CI_REGISTRY_IMAGE/sffedev:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/sffedev:$CI_COMMIT_SHA
+
+push_latest:
+  variables:
+    GIT_STRATEGY: none
+  stage: deploy
+  only:
+    - master
+  script:
+    - docker build -t sfworkersprod -f docker/Dockerfile.prod.workers . --tag $CI_REGISTRY_IMAGE/sfworkersprod:latest
+    - docker push $CI_REGISTRY_IMAGE/sfworkersprod:latest

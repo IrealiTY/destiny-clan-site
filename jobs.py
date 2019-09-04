@@ -1,35 +1,45 @@
 import argparse
 from app.destiny import client
+from app.destiny import admin
+from app.destiny import manifest
 from app import create_app
 
 d2 = client.DestinyAPI()
 
-def check_manifest():
-    d2.get_new_manifest()
+def update_manifest():
+    manifest.update()
+
+def update_manifest_force():
+    manifest.update(force=True)
 
 def check_matches():
     d2.db_get_all_clan_stats()
 
 def remove_former_members():
-    d2.db_remove_former_clan_members()
+    admin.db_remove_former_clan_members()
 
 def update_glory():
     d2.update_all_glory()
 
 def add_members():
-    d2.db_update_clan_members(d2.CLAN_ID)
-    d2.db_update_characters()
+    admin.db_update_clan_members()
+    admin.db_update_characters()
 
 def update_collectibles():
     d2.get_collectible_exotic_weapons()
 
+def download_pgcr_history_crucible():
+    d2.download_pgcr_history_crucible('4611686018470721488', '2305843009354414197')
+
 function_map = {
-    'manifest': check_manifest,
+    'manifest': update_manifest,
+    'manifest-force': update_manifest_force,
     'matches': check_matches,
     'removemembers': remove_former_members,
     'addmembers': add_members,
     'glory': update_glory,
-    'collectibles': update_collectibles
+    'collectibles': update_collectibles,
+    'pgcr': download_pgcr_history_crucible
 }
 
 parser = argparse.ArgumentParser()
