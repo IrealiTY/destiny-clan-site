@@ -18,6 +18,16 @@ Frontend:
 ### Database
 
 <database setup walkthrough>
+ 
+The project started out using sqlite3, but eventually moved for PostgreSQL. I believe this could still work with sqlite3 if you did not want to go through the trouble of setting up PostgreSQL.
+
+Initialize alembic - this is used for database schema generation and migrations:
+
+```
+alembic init swampfoxdev
+```
+
+
 
 ### Backend (API)
 
