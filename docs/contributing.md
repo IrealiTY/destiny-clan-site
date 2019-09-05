@@ -22,3 +22,24 @@ Install Python dependencies:
 ```python
 pip install -r requirements.txt
 ```
+
+Run the API:
+
+```python
+# Run from project root
+python clan.py --debug
+```
+
+### Frontend
+
+Install JS dependencies:
+
+```
+yarn install
+```
+
+Run the frontend:
+
+```
+yarn serve
+```
