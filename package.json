@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.staging.lab:qbag/destiny2api.git"
+    "url": "git@git.staging.lab:brobotic/destiny2api.git"
   },
   "author": "brobotic@staging.lab",
   "license": "ISC"
