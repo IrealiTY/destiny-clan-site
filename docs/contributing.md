@@ -15,6 +15,10 @@ Frontend:
 
 ## Running the project locally
 
+### Database
+
+<database setup walkthrough>
+
 ### Backend (API)
 
 Install Python dependencies:
