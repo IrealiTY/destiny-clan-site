@@ -15,6 +15,8 @@ Frontend:
 
 ## Running the project locally
 
+First, clone the repo using Git.
+
 ### Database
 
 <database setup walkthrough>
@@ -27,13 +29,18 @@ Initialize alembic - this is used for database schema generation and migrations:
 alembic init swampfoxdev
 ```
 
-
-
 ### Backend (API)
 
 Install Python dependencies:
 
 ```python
+# Create a virtualenv, run this in the cloned git project folder
+python -m venv destiny-clan-site
+
+# Active the virtualenv
+. .\destiny-clan-site\Scripts\activate.ps1
+
+# Install python dependencies
 pip install -r requirements.txt
 ```
 
@@ -45,6 +52,13 @@ python clan.py --debug
 ```
 
 ### Frontend
+
+Yarn is used to manage JS dependencies, and it also requires NodeJS. I would recommend installing Chocolatey to install both of these: https://chocolatey.org/
+
+```
+choco install nodejs
+choco install yarn
+```
 
 Install JS dependencies:
 
