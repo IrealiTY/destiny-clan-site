@@ -190,31 +190,27 @@ class DestinyAPI(object):
                 if node_progress == node_progress_completed:
                     obtained_seals.append(title)
             else:
-                unbroken_seal_hash = '2039028930'
-                mmxix_seal_hash = '1002334440'
-                character_specific_seals = [unbroken_seal_hash, mmxix_seal_hash]
                 characters = [k for k,v in profile['Response']['characterPresentationNodes']['data'].items()]
                 for character in characters:
-                    for seal in character_specific_seals:
-                        node_progress = profile['Response']['characterPresentationNodes']['data'][character]['nodes'][seal]['progressValue']
-                        node_progress_completed = profile['Response']['characterPresentationNodes']['data'][character]['nodes'][seal]['completionValue']
-                        presentation_node = self.get_definition('DestinyPresentationNodeDefinition', int(seal))
+                    node_progress = profile['Response']['characterPresentationNodes']['data'][character]['nodes'][node]['progressValue']
+                    node_progress_completed = profile['Response']['characterPresentationNodes']['data'][character]['nodes'][node]['completionValue']
+                    presentation_node = self.get_definition('DestinyPresentationNodeDefinition', int(node))
 
-                        try:
-                            title = self.get_definition('DestinyRecordDefinition', int(presentation_node['completionRecordHash']))['titleInfo']['titlesByGender']['Male']
-                        except KeyError:
-                            logger.warning(f'{presentation_node}: Failed to pull title name from DestinyRecordDefinition')
-                            continue
+                    try:
+                        title = self.get_definition('DestinyRecordDefinition', int(presentation_node['completionRecordHash']))['titleInfo']['titlesByGender']['Male']
+                    except KeyError:
+                        logger.warning(f'{presentation_node}: Failed to pull title name from DestinyRecordDefinition')
+                        continue
 
-                        #print(f'{node}: {node_progress} / {node_progress_completed} ({title})')
-                        if seal == '1002334440':
-                            if node_progress == (node_progress_completed - 1):
-                                obtained_seals.append(title)
-                                break
-                        else:
-                            if node_progress == node_progress_completed:
-                                obtained_seals.append(title)
-                                break
+                    #print(f'{node}: {node_progress} / {node_progress_completed} ({title})')
+                    if node == '1002334440':
+                        if node_progress == (node_progress_completed - 1):
+                            obtained_seals.append(title)
+                            break
+                    else:
+                        if node_progress == node_progress_completed:
+                            obtained_seals.append(title)
+                            break
 
         if obtained_seals:
             obtained_seals = list(set(obtained_seals))
