@@ -14,13 +14,12 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 * [Vue.JS](https://vuejs.org/): Javascript frontend framework.
 * [nginx](https://www.nginx.com/): Serves frontend and reverse-proxies requests to backend API.
 * [Flask](http://flask.pocoo.org/): Backend API written in Python, using Flask-Restplus.
-* [PostgreSQL](https://www.postgresql.org/): Database.
-* [Redis](https://redis.io/): Message queue.
+* [PostgreSQL](https://www.postgresql.org/): Database. 
+* [Redis](https://redis.io/): Used as first-in-first-out queue when processing new Crucible matches.
 * [Docker/Docker-compose](https://www.docker.com/): Each service has its own container: frontend, backend, Redis, and one for the Worker processes. Database is not ran in a container.
 * Linux: Container host (CentOS 7) and all container images are based off some flavor of Linux. Mostly Alpine, due to its small footprint.
 * [supervisord](http://supervisord.org/): Manages worker processes (Python scripts) in a container that frequently pull new Player data from the Destiny API.
-* [Jenkins](https://jenkins.io/): Executes jobs that builds and deploys container images from docker-compose files.
-* [GitLab](https://about.gitlab.com/): Version control for the project.
+* [GitLab](https://about.gitlab.com/): Version control and CI/CD for the project. 
 
 # How it works
 
