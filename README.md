@@ -31,9 +31,9 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 
 ## Weapon stats update
 
-1. Every 5 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_pvp.py`) in the Workers container that sends all player membershipId's to the Redis queue.
-2. Several Workers are subscribed to the queue will pop player memembershipId's from the queue and check for new crucible matches played for each character that the player has. In the database, I keep track of the last match processed for each character as well as the last played time for the player; this helps quickly identify new matches played. The Worker then sends a JSON blob to a different Redis queue("PvP Queue"), that contains a list of characters along with new matches they've played. Script: (`%projectroot%/pgcr_consumer.py`)
-3. Another set of Workers are subscribed to the PvP Queue, and will pop items off the list and go through each match that needs to be processed. The Worker will then: process the match, add the new kill count for each weapon to the database (this is tied to the character), and update the character's last match processed in the database. Script: (`%projectroot%/pgcr_consumer.py`)
+1. Every 5 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_pvp.py`) in the Workers container that uses RPUSH to send player membershipId's to the Redis list (used as a first-in first-out "queue").
+2. Several Workers watch the list and will BLPOP player memembershipId's from the list and check for new crucible matches played for each character that the player has. In the database, I keep track of the last match processed for each character as well as the last played time for the player; this helps quickly identify new matches played. The Worker then sends new match IDs to a separate Redis list ("matches"). Script: (`%projectroot%/pgcr_consumer.py`)
+3. Another set of Workers are watching the matches Redis list, and will BLPOP items off the list. The Worker will then: parse the match for stats, add the new kill count for each weapon to the database (this is tied to the character), and update the character's last match processed in the database. Script: (`%projectroot%/pgcr_consumer.py`)
 
 # The Future
 
