@@ -1,6 +1,6 @@
 # Overview
 
-**Update 1/23/2020: As of a few months ago, the Swampfox clan has unfortunately disbanded and I have stopped work on this project for now. I'm hoping to revive the project and bring it back for my new clan, Shine, in time for next season.**
+**Update 6/26/2020: Unfortunately, the clan I made this for has disbanded so I have stopped work on the project. Leaving this here to showcase the work I have done.**
 
 A Destiny 2 stat site made for my clan, SwampFox. The project started as a small site written in Flask backed by a PostgreSQL database, where its only purpose was to display the most used weapons in the clan in PvP (in terms of kill count). It has since evolved into a bigger project with a few more moving parts, and aims to be the home website for my Destiny clan. It's been a ton of fun building this, and I've learned quite a bit in the process and am excited to see where this goes!
 
