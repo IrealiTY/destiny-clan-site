@@ -1,6 +1,6 @@
 # Overview
 
-**Update 1/23/2020: As of a few months ago, the Swampfox clan has unfortunately disbanded and I have stopped work on this project for now. I'm hoping to revive the project and bring it back for my new clan, Shine, in time for next season.**
+**Update 6/26/2020: Unfortunately, the clan I made this for has disbanded so I have stopped work on the project. Leaving this here to showcase the work I have done.**
 
 A Destiny 2 stat site made for my clan, SwampFox. The project started as a small site written in Flask backed by a PostgreSQL database, where its only purpose was to display the most used weapons in the clan in PvP (in terms of kill count). It has since evolved into a bigger project with a few more moving parts, and aims to be the home website for my Destiny clan. It's been a ton of fun building this, and I've learned quite a bit in the process and am excited to see where this goes!
 
@@ -25,15 +25,15 @@ A Destiny 2 stat site made for my clan, SwampFox. The project started as a small
 
 ## Roster update
 
-1. Every 3 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_roster.py`) in the Workers container that publishes all player membershipId's to the Redis message queue. Originally, this process was just a script that looped through each player and updated their stats. I wanted stats to be updated quicker, so that's where Redis came in. Now multiple players can be processed at once.
-2. Several Workers are subscribed to the queue will pop player memembershipId's from the queue and pull the latest stats from the Destiny API for that player, and send the latest data to the database. Script: (`%projectroot%/stat_collector.py`)
-3. Frontend queries the backend API for the player data, and will transform some of the data on the client side on each page load. Example: a list of Seals (aka Titles) earned by each player are returned from the API, and the frontend contains computed properties that will transform the Seal name into the corresponding icon for each Seal. 
+1. Every 3 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_roster.py`) in the Workers container that publishes all player membershipIDs to a Redis list. Originally, this process was just a script that looped through each player and updated their stats. This clan was several times larger than my previous clan and I was not updating player stats as quick as I wanted to, so that's where Redis came in. Now multiple players can be processed in parallel, and consumption of items from this list can be easily scaled by adding/removing Workers.
+2. Several Workers execute BLPOP on the list to consume membershipIDs pull the latest stats from the Destiny API for that player, and send the latest data to the database. Script: (`%projectroot%/stat_collector.py`)
+3. Frontend queries the API service for the player data, and will transform some of the data on the client side on each page load. Example: a list of Seals (aka Titles) earned by each player are returned from the API, and the frontend contains computed properties that will transform the Seal name into the corresponding icon for each Seal. 
 
 ## Weapon stats update
 
-1. Every 5 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_pvp.py`) in the Workers container that sends all player membershipId's to the Redis queue.
-2. Several Workers are subscribed to the queue will pop player memembershipId's from the queue and check for new crucible matches played for each character that the player has. In the database, I keep track of the last match processed for each character as well as the last played time for the player; this helps quickly identify new matches played. The Worker then sends a JSON blob to a different Redis queue("PvP Queue"), that contains a list of characters along with new matches they've played. Script: (`%projectroot%/pgcr_consumer.py`)
-3. Another set of Workers are subscribed to the PvP Queue, and will pop items off the list and go through each match that needs to be processed. The Worker will then: process the match, add the new kill count for each weapon to the database (this is tied to the character), and update the character's last match processed in the database. Script: (`%projectroot%/pgcr_consumer.py`)
+1. Every 5 minutes, a cronjob kicks off a Python script (`%projectroot%/redis_send_player_ids_pvp.py`) in the Workers container that uses RPUSH to send player membershipIDs to the Redis list (used as a first-in first-out queue of sorts).
+2. Several Workers execute BLPOP on the list to grab memembershipIDs and check for new crucible matches played for each character that the player has. In the database, I keep track of the last match processed for each character as well as the last played time for the player; this helps quickly identify new matches played. The Worker then sends new match IDs to a separate Redis list ("matches"). Script: (`%projectroot%/pgcr_consumer.py`)
+3. Another set of Workers have executed BLPOP on the matches list. The Worker will then: parse the match for that player's stats, add the new kill count for each weapon to the database (this is tied to the character), and update the character's last match processed in the database. Script: (`%projectroot%/pgcr_consumer.py`)
 
 # The Future
 
